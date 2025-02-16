@@ -2,8 +2,8 @@ import Card from "../model/card.model.js";
 import ScoreNumber from "../model/score.model.js";
 
 const getScore = async(req,res)=>{
-  const data = await ScoreNumber.findOne();
   try {
+    const data = await ScoreNumber.findOne();
     if (!data) {
       return res.status(400).json({
         status: false,
