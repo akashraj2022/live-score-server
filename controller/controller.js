@@ -1,6 +1,28 @@
 import Card from "../model/card.model.js";
 import ScoreNumber from "../model/score.model.js";
 
+const getScore = async(req,res)=>{
+  const data = await ScoreNumber.findOne();
+  try {
+    if (!data) {
+      return res.status(400).json({
+        status: false,
+        message: "Score not found",
+      });
+    }
+    res.status(200).json({
+      status: true,
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "internal error",
+      error: error.message,
+    });
+  }
+}
+
 const createCard = async (req, res, next) => {
   const { title, status, session, country1, country2, img1, img2 } = req.body;
   try {
@@ -78,4 +100,4 @@ const scoreUpdate =async (req,res)=>{
           });
     }
 }
-export {  createCard, cardInfoShow,scoreUpdate };
+export {  createCard, cardInfoShow,scoreUpdate,getScore };
