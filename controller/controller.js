@@ -2,26 +2,43 @@ import Card from "../model/card.model.js";
 import ScoreNumber from "../model/score.model.js";
 
 const getScore = async(req,res)=>{
-  try {
-    const data = await ScoreNumber.findOne();
-    if (!data) {
-      return res.status(400).json({
-        status: false,
-        message: "Score not found",
-      });
-    }
-    res.status(200).json({
-      status: true,
-      data,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      message: "internal error",
-      error: error.message,
-    });
-  }
+  // try {
+  //   const data = await ScoreNumber.findOne();
+  //   if (!data) {
+  //     return res.status(400).json({
+  //       status: false,
+  //       message: "Score not found",
+  //     });
+  //   }
+  //   res.status(200).json({
+  //     status: true,
+  //     data,
+  //   });
+  // } catch (error) {
+  //   res.status(500).json({
+  //     status: false,
+  //     message: "internal error",
+  //     error: error.message,
+  //   });
+  // }
 }
+
+let scoreData = ["10/1", "14/1", "18/1",'20/1','21/1','21/2','27/2','30/2','31/2','31/3','32/3','33/3','36/3'];
+let index = 0;
+
+// API to get the latest score
+const score =  (req, res) => {
+  if (index < scoreData.length) {
+    
+    res.json({ data: scoreData[index] });
+    index++;
+    if(index >= scoreData.length){
+      index =0;
+    }
+  } else {
+    res.json({ data: "No run" });
+  }
+};
 
 const createCard = async (req, res, next) => {
   const { title, status, session, country1, country2, img1, img2 } = req.body;
@@ -100,4 +117,4 @@ const scoreUpdate =async (req,res)=>{
           });
     }
 }
-export {  createCard, cardInfoShow,scoreUpdate,getScore };
+export {  createCard, cardInfoShow,scoreUpdate,getScore,score };
