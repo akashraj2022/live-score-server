@@ -2,28 +2,28 @@ import Card from "../model/card.model.js";
 import ScoreNumber from "../model/score.model.js";
 
 const getScore = async(req,res)=>{
-  // try {
-  //   const data = await ScoreNumber.findOne();
-  //   if (!data) {
-  //     return res.status(400).json({
-  //       status: false,
-  //       message: "Score not found",
-  //     });
-  //   }
-  //   res.status(200).json({
-  //     status: true,
-  //     data,
-  //   });
-  // } catch (error) {
-  //   res.status(500).json({
-  //     status: false,
-  //     message: "internal error",
-  //     error: error.message,
-  //   });
-  // }
+  try {
+    const data = await ScoreNumber.findOne();
+    if (!data) {
+      return res.status(400).json({
+        status: false,
+        message: "Score not found",
+      });
+    }
+    res.status(200).json({
+      status: true,
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "internal error",
+      error: error.message,
+    });
+  }
 }
 
-let scoreData = ["10/1", "14/1", "18/1", "20/1", "21/1", "21/2", "27/2", "30/2", "31/2", "31/3", "32/3", "33/3", "36/3", "40/3", "42/4", "45/4", "46/4", "46/5", "48/5", "48/6", "52/6", "55/6", "55/7"]
+let scoreData = [ "1/0","3/1","5/1","9/1","10/1", "14/1", "18/1", "20/1", "21/1", "21/2", "27/2", "30/2", "31/2", "31/3", "32/3", "33/3", "36/3", "40/3", "42/4", "45/4", "46/4", "46/5", "48/5", "48/6", "52/6", "55/6", "55/7"]
 ;
 let index = 0;
 
@@ -54,15 +54,24 @@ const createCard = async (req, res, next) => {
       img2,
     });
 
-    const cardDelete = await Card.findOne();
-    await Card.findByIdAndDelete(cardDelete._id);
-    await newCard.save();
-
-    res.status(201).json({
-      status: true,
-      message: "Card created successfully",
-      data: newCard,
-    });
+     const cardDelete = await Card.findOne();
+    if(cardDelete){
+      await Card.findByIdAndDelete(cardDelete._id);
+      await newCard.save();
+      res.status(201).json({
+        status: true,
+        message: "Card update successfully",
+        data: newCard,
+      });
+    }else{
+      await newCard.save();
+      res.status(201).json({
+        status: true,
+        message: "Card created successfully",
+        data: newCard,
+      });
+    }
+   
 
   } catch (error) {
     res.status(500).json({

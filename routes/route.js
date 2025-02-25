@@ -3,7 +3,7 @@ import { createCard, cardInfoShow, scoreUpdate, getScore, score } from '../contr
 
 const route = express.Router()
 
-route.get('/getScore',getScore);
+route.get('/getScore',getScore);  //
 route.post('/createCard',createCard);
 route.get('/score',score)
 route.get('/cardInfoShow',cardInfoShow);
